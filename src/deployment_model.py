@@ -32,10 +32,10 @@ class FlightPricePredictor:
     def encode_and_map(self, column_name, order):
         label_encoder = LabelEncoder()
         label_encoder.fit(order)
-        encoded_column_name = f"\{column_name\}_encoded"
+        encoded_column_name = f"{column_name}_encoded"
         self.df[encoded_column_name] = label_encoder.transform(self.df[column_name])
         mapping = dict(zip(label_encoder.transform(order), order))
-        decoded_column_name = f"\{column_name\}_time"
+        decoded_column_name = f"{column_name}_time"
         self.df[decoded_column_name] = self.df[encoded_column_name].map(mapping)
         self.df.drop(columns=[column_name], inplace=True)
 
