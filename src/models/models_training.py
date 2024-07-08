@@ -2,7 +2,7 @@
 from sklearn.model_selection import train_test_split
 import joblib
 from src.models.models import MODELS, MODEL_PARAMS
-
+from src.utils.configs import MODEL_PATH
 
 class ModelTrainer:
     def __init__(self, X, y, model_params=None):
@@ -20,7 +20,7 @@ class ModelTrainer:
         X_train, X_test, y_train, y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
 
         model.fit(X_train, y_train)
-        joblib.dump(model, f'models/{model_type}.pkl')
+        joblib.dump(model, f'{MODEL_PATH}/{model_type}.pkl')
         self.trained_models[model_type] = model
         return model, X_train, y_train, X_test, y_test
 
