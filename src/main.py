@@ -1,29 +1,53 @@
-from data_preprocessing import load_data, inspect_data, preprocess_data
-from model_training import train_and_evaluate_models
+# main.py
+from src.data.data_loader import DataLoader
+from src.data.data_preprocessing import DataPreprocessor
+from src.data.data_visualisation import DataVisualizer
+from src.models.models_training import ModelTrainer
+from src.models.models_evaluation import ModelEvaluator
+from src.utils.configs import DATA_PATH, PROCESSED_DATA_PATH, VISUALS
 
 
 def main():
-    data = load_data('../notebooks/flightPrice.csv')
+    # Load data
+    loader = DataLoader(DATA_PATH)
+    df = loader.load_data()
 
-    # Inspect the data to understand its structure
-    inspect_data(data)
+    # Preprocess data
+    preprocessor = DataPreprocessor(df)
+    df1, label_encoders = preprocessor.preprocess_data()
 
-    # Update the target column name as per your dataset
-    target_column = 'Fare'
+    # Save preprocessed data
+    preprocessor.save_preprocessed_data(PROCESSED_DATA_PATH)
 
-    X_train, X_test, y_train, y_test = preprocess_data(data, target_column)
+    # Visualize data
+    visualizer = DataVisualizer(df, VISUALS)
+    visualizer.plot_number_of_stops()
+    visualizer.plot_travel_classes_distribution()
+    visualizer.plot_days_left_distribution()
+    visualizer.plot_top_10_airlines()
+    visualizer.plot_average_price_by_airline()
 
-    # Train and evaluate models
-    results = train_and_evaluate_models(X_train, y_train)
+    # Split features and target
+    X = df1.drop('price in CAD', axis=1)
+    y = df1['price in CAD']
 
-    # Print or save results
-    print(results)
+    # Define selected models
+    selected_models = ['random_forest', 'decision_tree', 'linear_regression', 'xgboost', 'lasso', 'ridge',
+                       'elastic_net', 'gradient_boosting']
 
-    # Print results
-    for model_name, metrics in results.items():
-        mae, mse, rmse, r2 = metrics
-        print(f'{model_name} - MAE: {mae}, MSE: {mse}, RMSE: {rmse}, R2: {r2}')
+    # Train models
+    trainer = ModelTrainer(X, y)
+    models_results = trainer.train_selected_models(selected_models)
+
+    # Evaluate models
+    evaluator = ModelEvaluator(models_results)
+    evaluation_results = evaluator.evaluate_models()
+
+    for model_type, metrics in evaluation_results.items():
+        print('Model: {}'.format(model_type))
+        print('  Train MSE: {:.4f}, Train R2: {:.4f}'.format(metrics['train_mse'], metrics['train_r2']))
+        print('  Test MSE: {:.4f}, Test R2: {:.4f}'.format(metrics['test_mse'], metrics['test_r2']))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
