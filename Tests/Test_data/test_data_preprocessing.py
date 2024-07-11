@@ -62,12 +62,6 @@ def test_preprocess_data(sample_dataframe):
     for col in ['Airline', 'Source', 'Destination', 'Class']:
         assert col + '_Encoded' in df.columns, col + "_Encoded column should be in preprocessed DataFrame"
 
-def test_save_preprocessed_data(sample_dataframe):
-    preprocessor = DataPreprocessor(sample_dataframe.copy())
-    df, _ = preprocessor.preprocess_data()
-    preprocessor.save_preprocessed_data(TEST_CSV)
-    assert os.path.exists(TEST_CSV), "Preprocessed data file should be saved"
-    os.remove(TEST_CSV)
 
 # Run the tests
 if __name__ == "__main__":

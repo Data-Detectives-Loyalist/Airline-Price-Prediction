@@ -5,6 +5,7 @@ from src.data.data_visualisation import DataVisualizer
 from src.models.models_training import ModelTrainer
 from src.models.models_evaluation import ModelEvaluator
 from src.utils.configs import DATA_PATH, PROCESSED_DATA_PATH, VISUALS
+import time
 
 
 def main():
@@ -32,8 +33,8 @@ def main():
     y = df1['price in CAD']
 
     # Define selected models
-    selected_models = ['random_forest', 'decision_tree', 'linear_regression', 'xgboost', 'lasso', 'ridge',
-                       'elastic_net', 'gradient_boosting']
+    selected_models = ['random_forest', 'decision_tree', 'gradient_boosting', 'xgboost', 'linear_regression', 'lasso', 'ridge',
+                       'elastic_net']
 
     # Train models
     trainer = ModelTrainer(X, y)
@@ -44,9 +45,10 @@ def main():
     evaluation_results = evaluator.evaluate_models()
 
     for model_type, metrics in evaluation_results.items():
-        print('Model: {}'.format(model_type))
-        print('  Train MSE: {:.4f}, Train R2: {:.4f}'.format(metrics['train_mse'], metrics['train_r2']))
-        print('  Test MSE: {:.4f}, Test R2: {:.4f}'.format(metrics['test_mse'], metrics['test_r2']))
+        print(f'Model: {model_type}')
+        print(f'  Train MSE: {metrics["train_mse"]:.4f}, Train RMSE: {metrics["train_rmse"]:.4f}, Train MAE: {metrics["train_mae"]:.4f}, Train R2: {metrics["train_r2"]:.4f}')
+        print(f'  Test MSE: {metrics["test_mse"]:.4f}, Test RMSE: {metrics["test_rmse"]:.4f}, Test MAE: {metrics["test_mae"]:.4f}, Test R2: {metrics["test_r2"]:.4f}')
+        print('-' * 50)
 
 
 if __name__ == '__main__':

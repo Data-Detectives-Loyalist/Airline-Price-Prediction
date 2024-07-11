@@ -13,11 +13,48 @@ git push --set-upstream origin <branch_name> # make it appear on your remote
 ```
 ## Folder Structure
 ```bash
-data # Data sets e.g excel files, csv
-images-charts # General analysis as charts in HTML/PDF/PPTS/IMAGES
-notebook # Jupter Notebooks
-report # Add your project report, task report e.g. word files
-src # Source code that is used in the project
+Airline-Price-Prediction
+├── .venv
+├── Dashboard
+├── data
+│    ├── cleaned #Cleaned raw data
+│    ├── external #dummy datasets
+│    ├── Processed #data stored after pre-processing
+│    │── raw #scraped data
+│    └── .gitkeep
+├── images-charts # General analysis as charts in HTML/PDF/PPTS/IMAGES
+│   └── EDA # EDA images are stored here
+├── notebooks # # Jupyter Notebooks
+│   └── old notebooks # # Jupyter Notebooks on dummy sets
+│        └── .gitkeep
+│            ├── ANN.ipynb
+│            ├── Data Cleaning - Stopover details and Price.ipynb
+│            └── EDAairlinepricepred.ipynb
+│
+├── report # project report, task report e.g. word files
+│   ├── CPR and PPTS
+│   ├── study
+│   └── Weekly check-in
+├── resources # File for deployment
+│   └── Deployment Files
+│       └── Aeroplane_flase.zip
+├── src # Source code that is used in the project
+│   ├── cleaning raw data
+│   ├── dashboard
+│   ├── data
+│   ├── models
+│   ├── scraping
+│   ├── utils
+│   └── main.py
+├── Tests # for PYtest for unit testing
+│       ├── test_cleaning
+│       ├── Test_data
+│       ├── test_models
+│       ├── test_scraping
+│       ├── test_utils
+│       └── test_main.py
+├── README.md
+└── requirements.txt
 ```
 
 ## Collaborators
