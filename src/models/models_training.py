@@ -4,6 +4,7 @@ import joblib
 from src.models.models import MODELS, MODEL_PARAMS
 from src.utils.configs import MODEL_PATH
 
+
 class ModelTrainer:
     def __init__(self, X, y, model_params=None):
         self.X = X
